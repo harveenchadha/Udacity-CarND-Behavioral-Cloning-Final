@@ -55,6 +55,8 @@ The model.py file contains the code for training and saving the convolution neur
 * Since we have a steering angle associated with three images we introduce a correction factor for left and right images since the steering angle is captured by the center angle.
 * I decided to introduce a correction factor of 0.2
 * For the left images I increase the steering angle by 0.2 and for the right images I decrease the steering angle by 0.2
+* Sample Image
+<img src="./images/center_2016_12_01_13_31_15_513.jpg">
 
 ### Preprocessing
 
@@ -79,6 +81,14 @@ The model.py file contains the code for training and saving the convolution neur
 
 * As it is clear from the model summary my first step is to apply normalization to the all the images.
 * Second step is to crop the image 70 pixels from top and 25 pixels from bottom. The image was cropped from top because I did not wanted to distract the model with trees and sky and 25 pixels from the bottom so as to remove the dashboard that is coming in the images.
+
+Sample Input Image-
+<img src="./images/center_2016_12_01_13_32_53_357.jpg">   
+
+Cropped Image-
+<img src="./images/center_2016_12_01_13_32_53_357_cropped.jpg">
+
+
 * Next Step is to define the first convolutional layer with filter depth as 24 and filter size as (5,5) with (2,2) stride followed by ELU activation function
 * Moving on to the second convolutional layer with filter depth as 36 and filter size as (5,5) with (2,2) stride followed by ELU activation function 
 * The third convolutional layer with filter depth as 48 and filter size as (5,5) with (2,2) stride followed by ELU activation function
@@ -105,6 +115,11 @@ After the full connected layer I have used a dropout so that the model generaliz
 * Generator batch size= 32
 * Correction factor- 0.2
 * Loss Function Used- MSE(Mean Squared Error as it is efficient for regression problem).
+
+After a lot of testing on track 1 I was convinced that this is my final model.
+
+### Output Video
+[![Click on Video to watch it on youtube](./images/2018_02_27_06_26_07_651.jpg)](https://www.youtube.com/watch?v=BMJi_tcetdQ)
 
 ### Important SideNotes- 
 
