@@ -69,17 +69,51 @@ The model.py file contains the code for training and saving the convolution neur
 * I analyzed the Udacity Dataset and found out that it contains 9 laps of track 1 with recovery data. I was satisfied with the data and decided to move on.
 * I decided to split the dataset into training and validation set using sklearn preprocessing library.
 * I decided to keep 15% of the data in Validation Set and remaining in Training Set
-Final Model Architecture
+* I am using generator to generate the data so as to avoid loading all the images in the memory and instead generate it at the run time in batches of 32. Even Augmented images are generated inside the generators.
+
+### Final Model Architecture
+
+* I made a little changes to the original NVIDIA architecture, my final architecture looks like in the image below
+
+<img src="./images/mymodel.JPG">
+
+* As it is clear from the model summary my first step is to apply normalization to the all the images.
+* Second step is to crop the image 70 pixels from top and 25 pixels from bottom. The image was cropped from top because I did not wanted to distract the model with trees and sky and 25 pixels from the bottom so as to remove the dashboard that is coming in the images.
+* Next Step is to define the first convolutional layer with filter depth as 24 and filter size as (5,5) with (2,2) stride followed by ELU activation function
+* Moving on to the second convolutional layer with filter depth as 36 and filter size as (5,5) with (2,2) stride followed by ELU activation function 
+* The third convolutional layer with filter depth as 48 and filter size as (5,5) with (2,2) stride followed by ELU activation function
+* Next we define two convolutional layer with filter depth as 64 and filter size as (3,3) and (1,1) stride followed by ELU activation funciton
+* Next step is to flatten the output from 2D to side by side
+* Here we apply first fully connected layer with 100 outputs
+* Here is the first time when we introduce Dropout with Dropout rate as 0.25 to combact overfitting
+* Next we introduce second fully connected layer with 50 outputs
+* Then comes a third connected layer with 10 outputs
+* And finally the layer with one output.
+
+Here we require one output just because this is a regression problem and we need to predict the steering angle.
 
 
-### Model Architecture
-
-* 
-
-#### Attempts to reduce overfitting in the model
+### Attempts to reduce overfitting in the model
 After the full connected layer I have used a dropout so that the model generalizes on a track that it has not seen. I decided to keep the Dropoout rate as 0.25 to combact overfitting.
 
-#### Model parameter tuning
+### Model parameter tuning
+
+* No of epochs= 5
+* Optimizer Used- Adam
+* Learning Rate- Default 0.001
+* Validation Data split- 0.15
+* Generator batch size= 32
+* Correction factor- 0.2
+* Loss Function Used- MSE(Mean Squared Error as it is efficient for regression problem).
+
+### Important SideNotes- 
+
+#### Simulator problem in GPU
+* I noticed that running simulator on GPU had a problem with latest tensorflow and keras versions.
+* "Cudnn handle cannot be initialized" is the error that I used to get while running the simulator. Workaround for this problem is to create a new environment with tensoflow instead of tensorflow-gpu and run simulator in that environment. Make sure to install other important libraries in new environment as well like eventlet, python-socketio which are required by drive.py to run.
+
+#### Memory Leak
+* I noticed a memory leak with keras verison 2.1 and tensorflow 1.2 so i decided to downgrade the keras to 1.2.1 and tensorflow to 0.12
 
 
  
